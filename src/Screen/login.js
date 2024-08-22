@@ -1,14 +1,39 @@
+
 import { useNavigation } from "@react-navigation/core";
 import React from "react"; 
+
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../services/firebaseConfig";
+
 import { SafeAreaView, StyleSheet, Text, View, TextInput, Image } from 'react-native'; 
 import { ButtonGrande } from "../Components/buttonGrande"; 
 import Logo from './../../assets/aquak.png'; 
 
-const Login = () => {
-    
-      const navigation = useNavigation();
+const Login = ({}) => {
 
-      function funCadastro () {
+
+
+    const handleLogin = () => {
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                
+                const user = userCredential.user;
+                
+                console.log(user);
+                setUser(user);
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                
+
+                console.log(errorMessage);
+            });
+    };
+
+    const navigation = useNavigation();
+
+    function funCadastro () {
         navigation.navigate('Cadastro')
       }
 
@@ -25,9 +50,11 @@ const Login = () => {
                 <Text style={styles.txt}>Login</Text>
             </View>
             <TextInput
+                onPress={handleLogin}
                 placeholder='Email'
                 keyboardType='email-address'
                 style={styles.input}
+                
             />
             <TextInput
                 placeholder='Password'
