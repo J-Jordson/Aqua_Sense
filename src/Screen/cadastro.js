@@ -37,12 +37,8 @@ const Cadastro = () => {
             />
             <View style={styles.espacoButton}>
                 <ButtonGrande
-<<<<<<< HEAD
-                    title="Fazer cadastro"
-=======
                   title="Fazer cadastro"
                   onPress={() => navigation.navigate('Home')}
->>>>>>> 27f4a9d (Criacao dos Graficos/Iluminacao na tela Home)
                 />
             </View>
         </SafeAreaView>

@@ -1,19 +1,12 @@
-<<<<<<< HEAD
-=======
 import React, { useState } from 'react';
 import { View, Text, Switch, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 
 export default function Home() {
+  const [vermelho, setVermelho] = useState(false);
+  const [azul, setAzul] = useState(false);
+  const [verde, setVerde] = useState(false);
 
-    // Estados das cores dos botão...
-    // por padrão vem false ou seja apagada
-  const [vermelho, setVermelho] = useState(false);// vermelho
-  const [azul, setAzul] = useState(false);// azul
-  const [verde, setVerde] = useState(false);// verde
-
-  // função para altera os tados das cores do botão...
-  
   const toggleSwitchVermelho = async () => {
     const newValue = !vermelho;
     setVermelho(newValue);
@@ -161,4 +154,4 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 });
->>>>>>> 27f4a9d (Criacao dos Graficos/Iluminacao na tela Home)
+
