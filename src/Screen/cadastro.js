@@ -1,9 +1,12 @@
 import React from "react";
+import { useNavigation } from "@react-navigation/core";
 import { SafeAreaView, StyleSheet, Text, View, TextInput, Image } from "react-native";
 import { ButtonGrande } from "../Components/buttonGrande";
 import Logo from './../../assets/aquak.png';
 
 const Cadastro = () => {
+    const navigation = useNavigation();
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.logoContainer}>
@@ -34,12 +37,18 @@ const Cadastro = () => {
             />
             <View style={styles.espacoButton}>
                 <ButtonGrande
+<<<<<<< HEAD
                     title="Fazer cadastro"
+=======
+                  title="Fazer cadastro"
+                  onPress={() => navigation.navigate('Home')}
+>>>>>>> 27f4a9d (Criacao dos Graficos/Iluminacao na tela Home)
                 />
             </View>
         </SafeAreaView>
     );
 }
+
 
 const styles = StyleSheet.create({
     container: {
@@ -75,7 +84,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         margin: 20,
-    }
+    },
 });
 
 export default Cadastro;
