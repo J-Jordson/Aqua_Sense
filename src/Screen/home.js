@@ -3,7 +3,7 @@ import { View, Text, Switch, StyleSheet, ScrollView, Dimensions } from 'react-na
 import { LineChart } from 'react-native-chart-kit';
 
 export default function Home() {
-  const [vermelho, setVermelho] = useState(false);
+  const [vermelho, setVermelho] = useState(false);  /* o estado do botom está false por padrão ou  desativado*/                                                
   const [azul, setAzul] = useState(false);
   const [verde, setVerde] = useState(false);
 
@@ -60,7 +60,7 @@ export default function Home() {
       <Text style={styles.chartTitle}>Temperatura</Text>
       <LineChart
         data={{
-          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+          labels: ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabado"],
           datasets: [
             {
               data: [20, 25, 22, 28, 26, 30],
@@ -96,7 +96,7 @@ export default function Home() {
       <Text style={styles.chartTitle}>pH</Text>
       <LineChart
         data={{
-          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+          labels: ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabado"],
           datasets: [
             {
               data: [7, 7.2, 6.8, 7.4, 7.1, 7.3],
