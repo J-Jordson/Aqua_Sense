@@ -20,13 +20,17 @@ const Cadastro = () => {
                 <Text style={styles.txt}>Cadastro</Text>
             </View>
 
+
+            <Text style={StyleSheet.txt}>Email</Text>
             <TextInput
-                placeholder='Email'
+                placeholder='Digite o seu email'
                 keyboardType='email-address'
                 style={styles.input}
             />
+
+            <Text style={StyleSheet.txt}>Senha</Text>
             <TextInput
-                placeholder='Password'
+                placeholder='Digite a sua senha'
                 secureTextEntry={true}
                 style={styles.input}
             />
