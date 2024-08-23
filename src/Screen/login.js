@@ -14,9 +14,9 @@ const Login = ({}) => {
 
 
     const handleLogin = () => {
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                
+        createUserWithEmailAndPassword(email, password)
+            .then((value) => {
+                alert('Bem vindo: ' + value.user.email)
                 const user = userCredential.user;
                 
                 console.log(user);
