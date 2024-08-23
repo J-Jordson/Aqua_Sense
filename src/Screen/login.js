@@ -64,6 +64,7 @@ const Login = ({}) => {
             <View style={styles.espacoButton}>
                 <ButtonGrande
                     title="AVANÇAR"
+
                 />
 
                  <ButtonGrande
