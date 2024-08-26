@@ -107,18 +107,17 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         borderRadius: 10,
         marginTop: 10,
-        marginBottom:10,
+        marginBottom: 10,
         width: '85%',
         color: 'black', 
     },
-
     label: {
         fontSize: 15,
         marginBottom: 5,
-        alignSelf: 'flex-start', // Move o texto para a esquerda
-        paddingLeft: 50, 
-      },
-   
+        alignSelf: 'flex-start',
+        paddingLeft: 50,
+
+    },
     forgotPassword: { // Defina o estilo para "forgotPassword"
         marginTop: 10,
     },
