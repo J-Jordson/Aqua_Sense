@@ -48,7 +48,7 @@ export default function Login({ navigation }) {
             <Text style={styles.welcome}>Bem Vindo </Text>
             
     
-            <Text style={StyleSheet.txt}>Email</Text>
+            <Text style={styles.label}>Email</Text>
             <TextInput
                 placeholder="Digite o seu email: "
                 value={login}
@@ -58,7 +58,7 @@ export default function Login({ navigation }) {
                 autoCapitalize="none"
             />
 
-            <Text style={StyleSheet.txt}>Senha</Text>
+            <Text style={styles.label}>Senha</Text>
             <TextInput
                 placeholder="Digite a sua senha: "
                 value={password}
@@ -106,10 +106,19 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingVertical: 10,
         borderRadius: 10,
-        marginTop: 20,
-        width: '75%',
+        marginTop: 10,
+        marginBottom:10,
+        width: '85%',
         color: 'black', 
     },
+
+    label: {
+        fontSize: 15,
+        marginBottom: 5,
+        alignSelf: 'flex-start', // Move o texto para a esquerda
+        paddingLeft: 50, 
+      },
+   
     forgotPassword: { // Defina o estilo para "forgotPassword"
         marginTop: 10,
     },
@@ -126,5 +135,6 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 18,
         fontWeight: 'bold',
+        
     },
 });

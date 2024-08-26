@@ -2,9 +2,9 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native"; 
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from '@react-navigation/drawer'; 
-import Login from "./src/Screen/Login"; 
 import Cadastro from "./src/Screen/cadastro";
 import Home from "./src/Screen/home";
+import Login from "./src/Screen/login";
 
 
 
