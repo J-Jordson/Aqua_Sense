@@ -36,6 +36,7 @@ export default function Login({ navigation }) {
         }
     };
     
+    
 
     return (
         <View style={styles.container}>
@@ -45,10 +46,10 @@ export default function Login({ navigation }) {
                     style={styles.logo} 
                 />
             </View>
-            <Text style={styles.welcome}>Bem Vindo </Text>
+            
+            <Text style={styles.welcome}>Bem Vindo de volta!</Text>
             
     
-            <Text style={styles.label}>Email</Text>
             <TextInput
                 placeholder="Digite o seu email: "
                 value={login}
@@ -58,7 +59,7 @@ export default function Login({ navigation }) {
                 autoCapitalize="none"
             />
 
-            <Text style={styles.label}>Senha</Text>
+    
             <TextInput
                 placeholder="Digite a sua senha: "
                 value={password}
@@ -67,15 +68,18 @@ export default function Login({ navigation }) {
                 style={styles.input}
             />
     
-            <TouchableOpacity onPress={() => alert('Recuperação de senha')} style={styles.forgotPassword}>
-                <Text style={styles.forgotPasswordText}>Esqueceu a senha?</Text>
-            </TouchableOpacity>
     
             <TouchableOpacity
                 style={styles.button}
                 onPress={handleLogin}
             >
-                <Text style={styles.buttonText}>Entrar</Text>
+                <Text style={styles.buttonText}>Entrar </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('Cadastro')}
+            >
+                <Text style={styles.buttonText}>Cadastrar </Text>
             </TouchableOpacity>
         </View>
     );
@@ -84,6 +88,7 @@ export default function Login({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        padding: 16,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#f7f7f7', // cor de fundo
@@ -102,14 +107,15 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     input: {
-        backgroundColor: 'white',
+        backgroundColor: '#F1F4FF',
         paddingHorizontal: 20,
         paddingVertical: 10,
         borderRadius: 10,
         marginTop: 10,
         marginBottom: 10,
-        width: '85%',
-        color: 'black', 
+        width: 357,
+        height: 51.2,
+        color: '#626262', 
     },
     label: {
         fontSize: 15,
@@ -124,12 +130,21 @@ const styles = StyleSheet.create({
     forgotPasswordText: { // Defina o estilo para "forgotPasswordText"
         color: 'blue',
     },
-    button: { // Adicione definição de estilo para "button"
-        backgroundColor: '#007bff',
-        padding: 15,
+    button: {
+        width: 357,
+        height: 51.2,
+        margin: 10,
+        flexShrink: 0,
         borderRadius: 10,
-        marginTop: 20,
-    },
+        backgroundColor: '#1FA8BB',
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: '#1FA8BB',
+        shadowOffset: { width: 0, height: 7.314 },
+        shadowOpacity: 0.25,
+        shadowRadius: 7.314,
+        elevation: 7.314,
+      },
     buttonText: { // Defina o estilo para "buttonText"
         color: 'white',
         fontSize: 18,

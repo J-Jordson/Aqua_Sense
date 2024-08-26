@@ -1,7 +1,8 @@
 import { initializeApp } from 'firebase/app';
-import { getAnalytics } from 'firebase/analytics';
 import { getAuth } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
+
+
 
 // Optionally import the services that you want to use
 // import {...} from "firebase/auth";
@@ -23,7 +24,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 const auth = getAuth(app);          // Inicializa o Firebase Authentication
 const database = getDatabase(app);  // Inicializa o Realtime Database
 
