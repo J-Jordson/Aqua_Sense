@@ -11,8 +11,6 @@ import Logo from './../../assets/aquak.png';
 
 const Login = ({}) => {
 
-
-
     const handleLogin = () => {
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
@@ -50,7 +48,6 @@ const Login = ({}) => {
                 <Text style={styles.txt}>Login</Text>
             </View>
             <TextInput
-                onPress={handleLogin}
                 placeholder='Email'
                 keyboardType='email-address'
                 style={styles.input}
@@ -63,6 +60,7 @@ const Login = ({}) => {
             />
             <View style={styles.espacoButton}>
                 <ButtonGrande
+                    onPress={handleLogin}
                     title="AVANÇAR"
                 />
 
