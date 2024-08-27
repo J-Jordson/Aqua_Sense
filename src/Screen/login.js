@@ -1,15 +1,13 @@
 import React, { useState } from "react"; 
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from "../services/firebaseConfig";
-
 import { StyleSheet, Text, View, TextInput, Image, Alert, TouchableOpacity } from 'react-native';  
 import Logo from './../../assets/aquak.png'; 
 
 export default function Login({ navigation }) {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
-    const [user, setUser] = useState('');
-    
+
     // Configuração logar do Firebase
     const handleLogin = async () => {
         try {
@@ -35,9 +33,12 @@ export default function Login({ navigation }) {
             Alert.alert('Erro de Autenticação', errorMessage);
         }
     };
-    
-    
 
+    // Função para lidar com "Esqueceu a senha?"
+    const handleForgotPassword = () => {
+        navigation.navigate('RecuperarSenha'); // Navegar para a tela de recuperação de senha
+    };
+    
     return (
         <View style={styles.container}>
             <View style={styles.logoContainer}>
@@ -49,7 +50,6 @@ export default function Login({ navigation }) {
             
             <Text style={styles.welcome}>Bem Vindo!</Text>
             
-    
             <TextInput
                 placeholder="Digite o seu email: "
                 value={login}
@@ -59,7 +59,6 @@ export default function Login({ navigation }) {
                 autoCapitalize="none"
             />
 
-    
             <TextInput
                 placeholder="Digite a sua senha: "
                 value={password}
@@ -67,7 +66,14 @@ export default function Login({ navigation }) {
                 secureTextEntry={true}
                 style={styles.input}
             />
-    
+
+            <TouchableOpacity
+                style={styles.forgotPassword}
+                onPress={handleForgotPassword}
+            >
+               <Text style={[styles.forgotPasswordText, { textAlign: 'left' }]}>Esqueceu a senha?</Text>
+
+            </TouchableOpacity>
     
             <TouchableOpacity
                 style={styles.button}
@@ -92,17 +98,17 @@ const styles = StyleSheet.create({
         padding: 16,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#f7f7f7', // cor de fundo
+        backgroundColor: '#f7f7f7',
     },
     logoContainer: {
-        marginBottom: 60, // Espaço entre a imagem e o texto
+        marginBottom: 60,
     },
     logo: {
-        width: 200, // Ajuste a largura
-        height: 200, // Ajuste a altura 
-        resizeMode: 'cover', // Ajusta a imagem para caber no contêiner
+        width: 200,
+        height: 200,
+        resizeMode: 'cover',
     },
-    welcome: { // Adicione a definição de estilo para "welcome"
+    welcome: {
         fontSize: 34,
         fontWeight: 'bold',
         marginBottom: 20,
@@ -118,18 +124,14 @@ const styles = StyleSheet.create({
         height: 51.2,
         color: '#626262', 
     },
-    label: {
-        fontSize: 15,
-        marginBottom: 5,
-        alignSelf: 'flex-start',
-        paddingLeft: 50,
-
+    forgotPassword: {
+        alignSelf: 'flex-end',
+        marginBottom: 20,
+        textAlign:'left',
     },
-    forgotPassword: { // Defina o estilo para "forgotPassword"
-        marginTop: 10,
-    },
-    forgotPasswordText: { // Defina o estilo para "forgotPasswordText"
+    forgotPasswordText: {
         color: 'blue',
+        fontSize: 14,  
     },
     button: {
         width: 307,
@@ -145,11 +147,10 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 7.314,
         elevation: 7.314,
-      },
-    buttonText: { // Defina o estilo para "buttonText"
+    },
+    buttonText: {
         color: 'white',
         fontSize: 18,
         fontWeight: 'bold',
-        
     },
 });
