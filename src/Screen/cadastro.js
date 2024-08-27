@@ -1,7 +1,7 @@
 import React, { useState } from "react"; 
 
 
-import { StyleSheet, Text, View, TextInput, Image,  SafeAreaView, Button } from 'react-native';  
+import { StyleSheet, Text, View, TextInput, Image,  SafeAreaView, Button, TouchableOpacity } from 'react-native';  
 import Logo from './../../assets/aquak.png'; 
 import { auth } from "../services/firebaseConfig";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -69,12 +69,15 @@ export default function Cadastro({ navigation }){
                 onChangeText={(texto) => setPassword(texto) }
                 value={password}
             />
-            <View style={styles.button}>
-                <Button
-                  title="Fazer cadastro"
-                  onPress={cadastrar}
-                />
-            </View>
+
+            <TouchableOpacity
+                style={styles.button}
+                onPress={cadastrar}
+            >
+                <Text style={styles.buttonText}>Fazer Cadastro</Text>
+            </TouchableOpacity>
+
+        
         
         </SafeAreaView>
     );
@@ -135,6 +138,11 @@ const styles = StyleSheet.create({
         shadowRadius: 7.314,
         elevation: 7.314,
       },
+    buttonText: { // Defina o estilo para "buttonText"
+        color: 'white',
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
     espacoButton: {
         width: '60%',
         justifyContent: 'center',

@@ -47,7 +47,7 @@ export default function Login({ navigation }) {
                 />
             </View>
             
-            <Text style={styles.welcome}>Bem Vindo de volta!</Text>
+            <Text style={styles.welcome}>Bem Vindo!</Text>
             
     
             <TextInput
@@ -75,6 +75,7 @@ export default function Login({ navigation }) {
             >
                 <Text style={styles.buttonText}>Entrar </Text>
             </TouchableOpacity>
+            
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => navigation.navigate('Cadastro')}
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginTop: 10,
         marginBottom: 10,
-        width: 357,
+        width: 307,
         height: 51.2,
         color: '#626262', 
     },
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
         color: 'blue',
     },
     button: {
-        width: 357,
+        width: 307,
         height: 51.2,
         margin: 10,
         flexShrink: 0,
