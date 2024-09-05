@@ -9,38 +9,52 @@ export default function Home() {
   const [azul, setAzul] = useState(false);
   const [verde, setVerde] = useState(false);
 
-  const [dataPath1, setDataPath1] = useState(null); /* Banco de Dados Temperatura */ 
-  const [dataPath2, setDataPath2] = useState(null);  /* Banco de Dados PH */ 
+
+  const [temperatureData, setTemperatureData] = useState([]);
+  const [phData, setPhData] = useState([]);
+  const [timestamps, setTimestamps] = useState([]);
+
 
   useEffect(() => {
-    // Referência para a Temperatura no Realtime Database
-    const dataRef1 = ref(database, '/dados/temp/valor/');
-    
-    // Ouvinte para o primeiro caminho
-    const unsubscribe1 = onValue(dataRef1, (snapshot) => {
-      const fetchedData1 = snapshot.val();
-      setDataPath1(fetchedData1);
-    }, (error) => {
-      console.error('Erro ao buscar dados da Temperatura: ', error);
+    // Referência para o caminho no Firebase onde os dados de temperatura são armazenados
+    const tempRef = ref(database, '/sensor/temperatura');
+
+    // Ouvindo atualizações em tempo real dos dados de temperatura
+    const unsubscribeTemp = onValue(tempRef, (snapshot) => {
+      const data = snapshot.val();
+      
+      if (data) {
+        const tempValues = Object.values(data).map(entry => entry.temperatura);
+        const timeValues = Object.values(data).map(entry => new Date(entry.timestamp).toLocaleTimeString());
+
+        setTemperatureData(tempValues);
+        setTimestamps(timeValues); // Atualiza os timestamps para os gráficos
+      }
     });
 
-    // Referência para o PH no Realtime Database
-    const dataRef2 = ref(database, '/dados/ph/valor/');
-    
-    // Ouvinte para o segundo caminho
-    const unsubscribe2 = onValue(dataRef2, (snapshot) => {
-      const fetchedData2 = snapshot.val();
-      setDataPath2(fetchedData2);
-    }, (error) => {
-      console.error('Erro ao buscar dados do PH: ', error);
+
+    // Referência para o caminho no Firebase onde os dados de pH são armazenados
+    const phRef = ref(database, '/sensor/ph');
+
+    // Ouvindo atualizações em tempo real dos dados de pH
+    const unsubscribePh = onValue(phRef, (snapshot) => {
+      const data = snapshot.val();
+      
+      if (data) {
+        const phValues = Object.values(data).map(entry => entry.ph);
+        setPhData(phValues);
+      }
     });
 
     // Limpar ouvintes quando o componente desmontar
     return () => {
-      unsubscribe1();
-      unsubscribe2();
+      unsubscribeTemp();
+      unsubscribePh();
     };
   }, []);
+
+
+
 
 
   const toggleSwitchVermelho = async () => {
@@ -93,37 +107,26 @@ export default function Home() {
       </View>
 
 
-      <View style={styles.container}>
-        <Text style={styles.title}>Temperatura: </Text>
-        <Text style={styles.text}>
-          {dataPath1 ? JSON.stringify(dataPath1, null, 2) : 'Carregando dados...'}
-      </Text>
+     
 
-      <Text style={styles.title}>PH: </Text>
-        <Text style={styles.text}>
-          {dataPath2 ? JSON.stringify(dataPath2, null, 2) : 'Carregando dados...'}
-        </Text>
-      </View>
-
-      {/* Gráfico de Temperatura */}
-      <Text style={styles.chartTitle}>Temperatura</Text>
+      <Text style={styles.chartTitle}>Temperatura em Tempo Real</Text>
       <LineChart
-        data={{
-          labels: ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabado"],
-          datasets: [
-            {
-              data: [20, 25, 22, 28, 26, 30],
-            },
-          ],
-        }}
+       data={{
+        labels: timestamps.slice(-5), // Mostrar apenas os últimos 10 timestamps
+        datasets: [
+          {
+            data: temperatureData.slice(-5), // Mostrar apenas os últimos 10 dados de temperatura
+          },
+        ],
+      }}
         width={Dimensions.get("window").width - 40}
         height={220}
-        yAxisSuffix="°C"
+        yAxisSuffix="°C" // Sufixo no eixo Y (graus Celsius)
         chartConfig={{
           backgroundColor: "#e26a00",
           backgroundGradientFrom: "#fb8c00",
           backgroundGradientTo: "#ffa726",
-          decimalPlaces: 2,
+          decimalPlaces: 1, // Número de casas decimais
           color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
           labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
           style: {
@@ -141,17 +144,22 @@ export default function Home() {
         }}
       />
 
-      {/* Gráfico de pH */}
-      <Text style={styles.chartTitle}>pH</Text>
+
+
+
+
+      
+    
+      <Text style={styles.chartTitle}>pH em Tempo Real</Text>
       <LineChart
         data={{
-          labels: ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabado"],
+          labels: timestamps.slice(-5), // Mostrar apenas os últimos 10 timestamps
           datasets: [
             {
-              data: [7, 7.2, 6.8, 7.4, 7.1, 7.3],
+              data: phData.slice(-5), // Mostrar apenas os últimos 10 dados de temperatura
             },
-          ],
-        }}
+        ],
+      }}
         width={Dimensions.get("window").width - 40}
         height={220}
         yAxisSuffix=""
@@ -159,7 +167,7 @@ export default function Home() {
           backgroundColor: "#1c313a",
           backgroundGradientFrom: "#1c313a",
           backgroundGradientTo: "#2a8c9c",
-          decimalPlaces: 2,
+          decimalPlaces: 1,
           color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
           labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
           style: {
