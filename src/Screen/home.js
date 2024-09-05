@@ -1,11 +1,47 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Switch, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
+import { database } from "../services/firebaseConfig";
+import { ref, onValue } from 'firebase/database';
 
 export default function Home() {
   const [vermelho, setVermelho] = useState(false);  /* o estado do botom está false por padrão ou  desativado*/                                                
   const [azul, setAzul] = useState(false);
   const [verde, setVerde] = useState(false);
+
+  const [dataPath1, setDataPath1] = useState(null); /* Banco de Dados Temperatura */ 
+  const [dataPath2, setDataPath2] = useState(null);  /* Banco de Dados PH */ 
+
+  useEffect(() => {
+    // Referência para a Temperatura no Realtime Database
+    const dataRef1 = ref(database, '/dados/temp/valor/');
+    
+    // Ouvinte para o primeiro caminho
+    const unsubscribe1 = onValue(dataRef1, (snapshot) => {
+      const fetchedData1 = snapshot.val();
+      setDataPath1(fetchedData1);
+    }, (error) => {
+      console.error('Erro ao buscar dados da Temperatura: ', error);
+    });
+
+    // Referência para o PH no Realtime Database
+    const dataRef2 = ref(database, '/dados/ph/valor/');
+    
+    // Ouvinte para o segundo caminho
+    const unsubscribe2 = onValue(dataRef2, (snapshot) => {
+      const fetchedData2 = snapshot.val();
+      setDataPath2(fetchedData2);
+    }, (error) => {
+      console.error('Erro ao buscar dados do PH: ', error);
+    });
+
+    // Limpar ouvintes quando o componente desmontar
+    return () => {
+      unsubscribe1();
+      unsubscribe2();
+    };
+  }, []);
+
 
   const toggleSwitchVermelho = async () => {
     const newValue = !vermelho;
@@ -54,6 +90,19 @@ export default function Home() {
           onValueChange={toggleSwitchVerde}
           value={verde}
         />
+      </View>
+
+
+      <View style={styles.container}>
+        <Text style={styles.title}>Temperatura: </Text>
+        <Text style={styles.text}>
+          {dataPath1 ? JSON.stringify(dataPath1, null, 2) : 'Carregando dados...'}
+      </Text>
+
+      <Text style={styles.title}>PH: </Text>
+        <Text style={styles.text}>
+          {dataPath2 ? JSON.stringify(dataPath2, null, 2) : 'Carregando dados...'}
+        </Text>
       </View>
 
       {/* Gráfico de Temperatura */}
