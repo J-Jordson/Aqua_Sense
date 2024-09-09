@@ -5,41 +5,36 @@ import { database } from "../services/firebaseConfig";
 import { ref, onValue } from 'firebase/database';
 
 export default function Home() {
-  const [vermelho, setVermelho] = useState(false);  /* o estado do botom está false por padrão ou  desativado*/                                                
+  const [vermelho, setVermelho] = useState(false);
   const [azul, setAzul] = useState(false);
   const [verde, setVerde] = useState(false);
-
 
   const [temperatureData, setTemperatureData] = useState([]);
   const [phData, setPhData] = useState([]);
   const [timestamps, setTimestamps] = useState([]);
 
-
   useEffect(() => {
     // Referência para o caminho no Firebase onde os dados de temperatura são armazenados
-    const tempRef = ref(database, '/sensor/temperatura');
+    const tempRef = ref(database, '/sensor2/temperatura');
 
     // Ouvindo atualizações em tempo real dos dados de temperatura
     const unsubscribeTemp = onValue(tempRef, (snapshot) => {
       const data = snapshot.val();
-      
       if (data) {
         const tempValues = Object.values(data).map(entry => entry.temperatura);
-        const timeValues = Object.values(data).map(entry => new Date(entry.timestamp).toLocaleTimeString());
+        const timeValues = Object.values(data).map(entry => entry.hora); // Ajustado para acessar `hora`
 
         setTemperatureData(tempValues);
         setTimestamps(timeValues); // Atualiza os timestamps para os gráficos
       }
     });
 
-
     // Referência para o caminho no Firebase onde os dados de pH são armazenados
-    const phRef = ref(database, '/sensor/ph');
+    const phRef = ref(database, '/sensor2/ph');
 
     // Ouvindo atualizações em tempo real dos dados de pH
     const unsubscribePh = onValue(phRef, (snapshot) => {
       const data = snapshot.val();
-      
       if (data) {
         const phValues = Object.values(data).map(entry => entry.ph);
         setPhData(phValues);
@@ -52,10 +47,6 @@ export default function Home() {
       unsubscribePh();
     };
   }, []);
-
-
-
-
 
   const toggleSwitchVermelho = async () => {
     const newValue = !vermelho;
@@ -106,27 +97,24 @@ export default function Home() {
         />
       </View>
 
-
-     
-
       <Text style={styles.chartTitle}>Temperatura em Tempo Real</Text>
       <LineChart
-       data={{
-        labels: timestamps.slice(-5), // Mostrar apenas os últimos 10 timestamps
-        datasets: [
-          {
-            data: temperatureData.slice(-5), // Mostrar apenas os últimos 10 dados de temperatura
-          },
-        ],
-      }}
+        data={{
+          labels: timestamps.slice(-5), // Mostrar apenas os últimos 5 timestamps
+          datasets: [
+            {
+              data: temperatureData.slice(-5), // Mostrar apenas os últimos 5 dados de temperatura
+            },
+          ],
+        }}
         width={Dimensions.get("window").width - 40}
         height={220}
-        yAxisSuffix="°C" // Sufixo no eixo Y (graus Celsius)
+        yAxisSuffix="°C"
         chartConfig={{
           backgroundColor: "#e26a00",
           backgroundGradientFrom: "#fb8c00",
           backgroundGradientTo: "#ffa726",
-          decimalPlaces: 1, // Número de casas decimais
+          decimalPlaces: 1,
           color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
           labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
           style: {
@@ -144,22 +132,16 @@ export default function Home() {
         }}
       />
 
-
-
-
-
-      
-    
       <Text style={styles.chartTitle}>pH em Tempo Real</Text>
       <LineChart
         data={{
-          labels: timestamps.slice(-5), // Mostrar apenas os últimos 10 timestamps
+          labels: timestamps.slice(-5), // Mostrar apenas os últimos 5 timestamps
           datasets: [
             {
-              data: phData.slice(-5), // Mostrar apenas os últimos 10 dados de temperatura
+              data: phData.slice(-5), // Mostrar apenas os últimos 5 dados de pH
             },
-        ],
-      }}
+          ],
+        }}
         width={Dimensions.get("window").width - 40}
         height={220}
         yAxisSuffix=""
@@ -211,4 +193,3 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 });
-
