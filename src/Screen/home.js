@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Switch, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { View, Text, Switch, StyleSheet, ScrollView, Dimensions, Button } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { database } from "../services/firebaseConfig";
-import { ref, onValue } from 'firebase/database';
+import { ref, onValue, update} from 'firebase/database';
 
 export default function Home() {
   const [vermelho, setVermelho] = useState(false);
   const [azul, setAzul] = useState(false);
   const [verde, setVerde] = useState(false);
+
+  
 
   const [temperatureData, setTemperatureData] = useState([]);
   const [phData, setPhData] = useState([]);
@@ -41,61 +43,68 @@ export default function Home() {
       }
     });
 
+
+    // LEDD
+    const ledRef = ref(database, '/LED');
+
+    const unsubscribe = onValue(ledRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        setVermelho(data.vermelho);
+        setAzul(data.azul);
+      }
+    });
+
+
     // Limpar ouvintes quando o componente desmontar
     return () => {
+      unsubscribe();
       unsubscribeTemp();
       unsubscribePh();
     };
   }, []);
 
-  const toggleSwitchVermelho = async () => {
-    const newValue = !vermelho;
-    setVermelho(newValue);
-  };
-
-  const toggleSwitchAzul = async () => {
-    const newValue = !azul;
-    setAzul(newValue);
-  };
-
-  const toggleSwitchVerde = async () => {
-    const newValue = !verde;
-    setVerde(newValue);
-  };
+  
+ // Função para alternar o estado de uma cor no Firebase
+ const toggleLed = (color) => {
+  const ledRef = ref(database, '/LED');
+  if (color === 'vermelho') {
+    update(ledRef, { vermelho: !vermelho });
+    setVermelho(!vermelho); // Atualizando estado local
+  } else if (color === 'azul') {
+    update(ledRef, { azul: !azul });
+    setAzul(!azul); // Atualizando estado local
+  }
+};
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Iluminação</Text>
       
-      <View style={styles.row}>
-        <Text>Vermelho</Text>
+      <Text style={styles.title}>Controle de LEDs</Text>
+
+      <View style={styles.ledControl}>
+        <Text>LED Vermelho</Text>
         <Switch
-          trackColor={{ false: "#767577", true: "#FF0000" }}
-          thumbColor={vermelho ? "#f4f3f4" : "#f4f3f4"}
-          onValueChange={toggleSwitchVermelho}
           value={vermelho}
+          onValueChange={() => toggleLed('vermelho')}
         />
       </View>
-      
-      <View style={styles.row}>
-        <Text>Azul</Text>
+
+      <View style={styles.ledControl}>
+        <Text>LED Azul</Text>
         <Switch
-          trackColor={{ false: "#767577", true: "#0000FF" }}
-          thumbColor={azul ? "#f4f3f4" : "#f4f3f4"}
-          onValueChange={toggleSwitchAzul}
           value={azul}
+          onValueChange={() => toggleLed('azul')}
         />
       </View>
+
       
-      <View style={styles.row}>
-        <Text>Verde</Text>
-        <Switch
-          trackColor={{ false: "#767577", true: "#00FF00" }}
-          thumbColor={verde ? "#f4f3f4" : "#f4f3f4"}
-          onValueChange={toggleSwitchVerde}
-          value={verde}
-        />
-      </View>
+
+      
+      
+      
+      
 
       <Text style={styles.chartTitle}>Temperatura em Tempo Real</Text>
       <LineChart
@@ -111,9 +120,9 @@ export default function Home() {
         height={220}
         yAxisSuffix="°C"
         chartConfig={{
-          backgroundColor: "#e26a00",
-          backgroundGradientFrom: "#fb8c00",
-          backgroundGradientTo: "#ffa726",
+          backgroundColor: "#1c313a",
+          backgroundGradientFrom: 'skyblue',
+          backgroundGradientTo: 'lightblue',
           decimalPlaces: 1,
           color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
           labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -123,7 +132,7 @@ export default function Home() {
           propsForDots: {
             r: "6",
             strokeWidth: "2",
-            stroke: "#ffa726",
+            stroke: "#2a8c9c",
           },
         }}
         style={{
@@ -147,8 +156,8 @@ export default function Home() {
         yAxisSuffix=""
         chartConfig={{
           backgroundColor: "#1c313a",
-          backgroundGradientFrom: "#1c313a",
-          backgroundGradientTo: "#2a8c9c",
+          backgroundGradientFrom: 'grey',
+          backgroundGradientTo: 'grey',
           decimalPlaces: 1,
           color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
           labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -190,6 +199,14 @@ const styles = StyleSheet.create({
   chartTitle: {
     fontSize: 16,
     fontWeight: 'bold',
+    marginTop: 20,
+  },
+  ledControl: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  buttonContainer: {
     marginTop: 20,
   },
 });
