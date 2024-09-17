@@ -87,7 +87,7 @@ export default function Home() {
       <Text style={styles.title}>Controle da Iluminação</Text>
 
       <View style={styles.ledControl}>
-        <Text>LED Verde</Text>
+        <Text>Luz Verde</Text>
         <Switch
           value={relay1Status === 'ON'}
           onValueChange={() => toggleRelay('relay1Status')}
@@ -97,7 +97,7 @@ export default function Home() {
       </View>
 
       <View style={styles.ledControl}>
-        <Text>LED Azul</Text>
+        <Text>Luz Azul</Text>
         <Switch
           value={relay2Status === 'ON'}
           onValueChange={() => toggleRelay('relay2Status')}
@@ -112,7 +112,7 @@ export default function Home() {
       
       
 
-      <Text style={styles.chartTitle}>Temperatura em Tempo Real</Text>
+      <Text style={styles.chartTitle}>Gráfico Temperatura</Text>
       <LineChart
         data={{
           labels: timestamps.slice(-5), // Mostrar apenas os últimos 5 timestamps
@@ -147,7 +147,7 @@ export default function Home() {
         }}
       />
 
-      <Text style={styles.chartTitle}>pH em Tempo Real</Text>
+      <Text style={styles.chartTitle}>Gráfico PH</Text>
       <LineChart
         data={{
           labels: timestamps.slice(-5), // Mostrar apenas os últimos 5 timestamps

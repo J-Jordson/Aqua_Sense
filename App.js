@@ -6,6 +6,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import Cadastro from "./src/Screen/cadastro";
 import Home from "./src/Screen/home";
 import Login from "./src/Screen/login";
+import Temperatura from "./src/Screen/temperatura";
+import PH from "./src/Screen/ph";
 
 
 LogBox.ignoreAllLogs();
@@ -20,6 +22,8 @@ function DrawerNavigator() {
   return (
     <Drawer.Navigator initialRouteName="Home">
       <Drawer.Screen name="Inicio" component={Home} />
+      <Drawer.Screen name="Temperatura" component={Temperatura} />
+      <Drawer.Screen name="PH" component={PH} />
     </Drawer.Navigator>
   );
 }
