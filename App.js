@@ -1,4 +1,5 @@
 import React from "react";
+import { LogBox } from 'react-native'
 import { NavigationContainer } from "@react-navigation/native"; 
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from '@react-navigation/drawer'; 
@@ -6,6 +7,8 @@ import Cadastro from "./src/Screen/cadastro";
 import Home from "./src/Screen/home";
 import Login from "./src/Screen/login";
 
+
+LogBox.ignoreAllLogs();
 
 
 const Stack = createStackNavigator();
@@ -16,7 +19,7 @@ const Drawer = createDrawerNavigator();
 function DrawerNavigator() {
   return (
     <Drawer.Navigator initialRouteName="Home">
-      <Drawer.Screen name="Home" component={Home} />
+      <Drawer.Screen name="Inicio" component={Home} />
     </Drawer.Navigator>
   );
 }

@@ -4,6 +4,8 @@ import { auth } from "../services/firebaseConfig";
 import { StyleSheet, Text, View, TextInput, Image, Alert, TouchableOpacity } from 'react-native';  
 import Logo from './../../assets/aquak.png'; 
 
+
+
 export default function Login({ navigation }) {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');

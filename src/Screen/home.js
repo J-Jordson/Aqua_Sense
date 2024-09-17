@@ -5,9 +5,8 @@ import { database } from "../services/firebaseConfig";
 import { ref, onValue, update} from 'firebase/database';
 
 export default function Home() {
-  const [vermelho, setVermelho] = useState(false);
-  const [azul, setAzul] = useState(false);
-  const [verde, setVerde] = useState(false);
+  const [verde, setVerde] = useState('OFF');
+  const [azul, setAzul] = useState('OFF');
 
   
 
@@ -50,8 +49,8 @@ export default function Home() {
     const unsubscribe = onValue(ledRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        setVermelho(data.vermelho);
-        setAzul(data.azul);
+        setVerde(data.verde || 'OFF'); // Definir 'OFF' como padrão se não houver dados
+        setAzul(data.azul || 'OFF');   // Definir 'OFF' como padrão se não houver dados
       }
     });
 
@@ -68,37 +67,41 @@ export default function Home() {
  // Função para alternar o estado de uma cor no Firebase
  const toggleLed = (color) => {
   const ledRef = ref(database, '/LED');
-  if (color === 'vermelho') {
-    update(ledRef, { vermelho: !vermelho });
-    setVermelho(!vermelho); // Atualizando estado local
+  const newState = color === 'verde' ? (verde === 'ON' ? 'OFF' : 'ON') : (azul === 'ON' ? 'OFF' : 'ON');
+  update(ledRef, { [color]: newState });
+  if (color === 'verde') {
+    setVerde(newState); // Atualizando estado local
   } else if (color === 'azul') {
-    update(ledRef, { azul: !azul });
-    setAzul(!azul); // Atualizando estado local
+    setAzul(newState); // Atualizando estado local
   }
 };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Iluminação</Text>
       
-      <Text style={styles.title}>Controle de LEDs</Text>
+    
+
+      <Text style={styles.title}>Controle da Iluminação</Text>
 
       <View style={styles.ledControl}>
-        <Text>LED Vermelho</Text>
+        <Text>LED Verde</Text>
         <Switch
-          value={vermelho}
-          onValueChange={() => toggleLed('vermelho')}
+          value={verde === 'ON'}
+          onValueChange={() => toggleLed('verde')}
+          trackColor={{ true: 'lightgreen', false: 'gray' }}
+          thumbColor={verde === 'ON' ? 'green' : 'white'}
         />
       </View>
 
       <View style={styles.ledControl}>
         <Text>LED Azul</Text>
         <Switch
-          value={azul}
+          value={azul === 'ON'}
           onValueChange={() => toggleLed('azul')}
+          trackColor={{ true: 'lightblue', false: 'gray' }}
+          thumbColor={azul === 'ON' ? 'blue' : 'white'}
         />
       </View>
-
       
 
       
@@ -205,6 +208,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 20,
+    gap: 10,
   },
   buttonContainer: {
     marginTop: 20,
