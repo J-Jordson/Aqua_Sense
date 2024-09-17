@@ -50,7 +50,6 @@ export default function Login({ navigation }) {
                 />
             </View>
             
-            <Text style={styles.welcome}>Bem Vindo!</Text>
             
             <TextInput
                 placeholder="Digite o seu email: "
@@ -69,13 +68,7 @@ export default function Login({ navigation }) {
                 style={styles.input}
             />
 
-            <TouchableOpacity
-                style={styles.forgotPassword}
-                onPress={handleForgotPassword}
-            >
-               <Text style={[styles.forgotPasswordText, { textAlign: 'left' }]}>Esqueceu a senha?</Text>
-
-            </TouchableOpacity>
+            
     
             <TouchableOpacity
                 style={styles.button}
@@ -90,6 +83,14 @@ export default function Login({ navigation }) {
             >
                 <Text style={styles.buttonText}>Cadastrar </Text>
             </TouchableOpacity>
+
+            <TouchableOpacity
+                style={styles.forgotPassword}
+                onPress={handleForgotPassword}
+            >
+               <Text style={[styles.forgotPasswordText, { textAlign: 'center' }]}>Esqueceu a senha?</Text>
+
+            </TouchableOpacity>
         </View>
     );
 }
@@ -103,17 +104,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#f7f7f7',
     },
     logoContainer: {
-        marginBottom: 60,
+        marginBottom: -30,
     },
     logo: {
-        width: 200,
-        height: 200,
+        width: 450,
+        height: 450,
         resizeMode: 'cover',
-    },
-    welcome: {
-        fontSize: 34,
-        fontWeight: 'bold',
-        marginBottom: 20,
     },
     input: {
         backgroundColor: '#F1F4FF',
@@ -127,8 +123,8 @@ const styles = StyleSheet.create({
         color: '#626262', 
     },
     forgotPassword: {
-        alignSelf: 'flex-end',
-        marginBottom: 20,
+        alignSelf: 'center',
+        marginTop: 20,
         textAlign:'left',
     },
     forgotPasswordText: {
@@ -141,10 +137,10 @@ const styles = StyleSheet.create({
         margin: 10,
         flexShrink: 0,
         borderRadius: 10,
-        backgroundColor: '#1FA8BB',
+        backgroundColor: '#0cbcf6',
         justifyContent: 'center',
         alignItems: 'center',
-        shadowColor: '#1FA8BB',
+        shadowColor: '#0cbcf6',
         shadowOffset: { width: 0, height: 7.314 },
         shadowOpacity: 0.25,
         shadowRadius: 7.314,
@@ -156,3 +152,4 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
+

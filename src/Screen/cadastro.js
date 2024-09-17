@@ -48,9 +48,7 @@ export default function Cadastro({ navigation }){
                 />
             </View>
 
-            <View>
-                <Text style={styles.txt}>Registre-se</Text>
-            </View>
+        
 
 
             
@@ -93,11 +91,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#f7f7f7',
     },
     logoContainer: {
-        marginBottom: 60,
+        marginBottom: -30,
     },
     logo: {
-        width: 200,
-        height: 200,
+        width: 450,
+        height: 450,
         resizeMode: 'cover',
     },
     txt: {
@@ -129,10 +127,10 @@ const styles = StyleSheet.create({
         margin: 10,
         flexShrink: 0,
         borderRadius: 10,
-        backgroundColor: '#1FA8BB',
+        backgroundColor: '#0cbcf6',
         justifyContent: 'center',
         alignItems: 'center',
-        shadowColor: '#1FA8BB',
+        shadowColor: '#0cbcf6',
         shadowOffset: { width: 0, height: 7.314 },
         shadowOpacity: 0.25,
         shadowRadius: 7.314,
