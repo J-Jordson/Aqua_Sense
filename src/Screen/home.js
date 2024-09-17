@@ -5,8 +5,8 @@ import { database } from "../services/firebaseConfig";
 import { ref, onValue, update} from 'firebase/database';
 
 export default function Home() {
-  const [verde, setVerde] = useState('OFF');
-  const [azul, setAzul] = useState('OFF');
+  const [relay1Status, setRelay1Status] = useState('OFF');
+  const [relay2Status, setRelay2Status] = useState('OFF');
 
   
 
@@ -44,13 +44,13 @@ export default function Home() {
 
 
     // LEDD
-    const ledRef = ref(database, '/LED');
+    const relayRef = ref(database, '/ilum'); // Mudando o caminho para "/ilum"
 
-    const unsubscribe = onValue(ledRef, (snapshot) => {
+    const unsubscribe = onValue(relayRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        setVerde(data.verde || 'OFF'); // Definir 'OFF' como padrão se não houver dados
-        setAzul(data.azul || 'OFF');   // Definir 'OFF' como padrão se não houver dados
+        setRelay1Status(data.relay1Status || 'OFF'); // Puxando o status de "relay1Status"
+        setRelay2Status(data.relay2Status || 'OFF'); // Puxando o status de "relay2Status"
       }
     });
 
@@ -65,14 +65,17 @@ export default function Home() {
 
   
  // Função para alternar o estado de uma cor no Firebase
- const toggleLed = (color) => {
-  const ledRef = ref(database, '/LED');
-  const newState = color === 'verde' ? (verde === 'ON' ? 'OFF' : 'ON') : (azul === 'ON' ? 'OFF' : 'ON');
-  update(ledRef, { [color]: newState });
-  if (color === 'verde') {
-    setVerde(newState); // Atualizando estado local
-  } else if (color === 'azul') {
-    setAzul(newState); // Atualizando estado local
+ const toggleRelay = (relay) => {
+  const relayRef = ref(database, '/ilum'); // Mudando o caminho para "/ilum"
+  
+  if (relay === 'relay1Status') {
+    const newState = relay1Status === 'ON' ? 'OFF' : 'ON';
+    update(relayRef, { relay1Status: newState });
+    setRelay1Status(newState); // Atualizando estado local
+  } else if (relay === 'relay2Status') {
+    const newState = relay2Status === 'ON' ? 'OFF' : 'ON';
+    update(relayRef, { relay2Status: newState });
+    setRelay2Status(newState); // Atualizando estado local
   }
 };
 
@@ -86,20 +89,20 @@ export default function Home() {
       <View style={styles.ledControl}>
         <Text>LED Verde</Text>
         <Switch
-          value={verde === 'ON'}
-          onValueChange={() => toggleLed('verde')}
+          value={relay1Status === 'ON'}
+          onValueChange={() => toggleRelay('relay1Status')}
           trackColor={{ true: 'lightgreen', false: 'gray' }}
-          thumbColor={verde === 'ON' ? 'green' : 'white'}
+          thumbColor={relay1Status === 'ON' ? 'green' : 'white'}
         />
       </View>
 
       <View style={styles.ledControl}>
         <Text>LED Azul</Text>
         <Switch
-          value={azul === 'ON'}
-          onValueChange={() => toggleLed('azul')}
+          value={relay2Status === 'ON'}
+          onValueChange={() => toggleRelay('relay2Status')}
           trackColor={{ true: 'lightblue', false: 'gray' }}
-          thumbColor={azul === 'ON' ? 'blue' : 'white'}
+          thumbColor={relay2Status === 'ON' ? 'blue' : 'white'}
         />
       </View>
       
